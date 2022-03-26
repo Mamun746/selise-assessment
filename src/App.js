@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "antd/dist/antd.css";
+import SideBar from "./components/Sidebar";
+import { Layout } from "antd";
+import { Switch, Route, Redirect } from "react-router-dom";
+import AuthorsPage from "./pages/authors-page";
+import FavoriteAuthorsPage from "./pages/favorite-author-page";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Layout>
+      <SideBar />
+      <Layout>
+        <Layout.Content
+          style={{ margin: "24px 16px 20px", overflow: "initial" }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/authors" />
+            </Route>
+            <Route exact path="/authors">
+              <AuthorsPage />
+            </Route>
+            <Route exact path="/favorite-authors">
+              <FavoriteAuthorsPage />
+            </Route>
+          </Switch>
+        </Layout.Content>
+      </Layout>
+    </Layout>
   );
 }
 
