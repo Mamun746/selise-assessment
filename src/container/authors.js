@@ -3,17 +3,16 @@ import ListItemComponent from "../components/ListItemComponent";
 import { Pagination } from "antd";
 import { setItem, getItem } from "../helper/local-storage";
 import { useHistory } from "react-router-dom";
-import { getQueryStringValue } from "../helper/query-string";
 
 export default function Authors() {
-  let favoriteAuthors = getItem("myFavorite");
+  let getFavoriteAuthors = getItem("myFavorite");
   const history = useHistory();
   const [authors, setAuthors] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [limit, setLimit] = useState(10);
   const [skip, setSkip] = useState(10);
-  const [items, setItems] = useState(favoriteAuthors);
+  const [favoriteAuthor, setFavoriteAuthor] = useState(getFavoriteAuthors);
 
   useEffect(() => {
     getAuthors();
@@ -21,14 +20,8 @@ export default function Authors() {
   }, [limit, skip]);
 
   useEffect(() => {
-    setItem("myFavorite", items);
-  }, [items]);
-
-  // function setupInitialState() {
-
-  //   setLimit(Number(getQueryStringValue("limit")) || 10);
-  //   setSkip(Number(getQueryStringValue("skip")) || 10);
-  // }
+    setItem("myFavorite", favoriteAuthor);
+  }, [favoriteAuthor]);
 
   async function getAuthors() {
     setFetching(true);
@@ -50,7 +43,7 @@ export default function Authors() {
           };
         });
       data.forEach((k) => {
-        let isPresent = items.find((item) => item._id === k._id);
+        let isPresent = favoriteAuthor.find((item) => item._id === k._id);
         if (isPresent) k.isFavorite = true;
       });
 
@@ -67,7 +60,7 @@ export default function Authors() {
     setAuthors((prevState) => {
       let current = prevState.find((item) => item._id === id);
       current.isFavorite = true;
-      setItems([...items, current]);
+      setFavoriteAuthor([...favoriteAuthor, current]);
       return [...prevState];
     });
   }
@@ -78,12 +71,12 @@ export default function Authors() {
 
       return [...prevState];
     });
-    let current = items.filter((item) => item._id !== id);
+    let current = favoriteAuthor.filter((item) => item._id !== id);
     console.log(current);
 
-    setItems([...current]);
+    setFavoriteAuthor([...current]);
   }
-  function onPaginationChange(page, pageSize) {
+  function onPaginationChange(page) {
     setSkip(10 * page);
   }
 
@@ -98,7 +91,7 @@ export default function Authors() {
       {authors.length ? (
         <Pagination
           style={{ textAlign: "center" }}
-          total={totalCount}
+          total={totalCount - limit}
           showSizeChanger={false}
           showQuickJumper={false}
           onChange={onPaginationChange}

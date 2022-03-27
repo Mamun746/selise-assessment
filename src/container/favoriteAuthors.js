@@ -6,25 +6,27 @@ import { getItem, setItem } from "../helper/local-storage";
 export default function FavoriteAuthors() {
   const getData = getItem("myFavorite");
 
-  const [items, setItems] = useState(getData);
+  const [favoriteAuthor, setFavoriteAuthor] = useState(getData);
 
   useEffect(() => {
-    setItem("myFavorite", items);
-  }, [items]);
+    setItem("myFavorite", favoriteAuthor);
+  }, [favoriteAuthor]);
 
   function removeFavorite(id) {
-    let current = items.filter((item) => item._id !== id);
-    console.log(current);
+    let current = favoriteAuthor.filter((item) => item._id !== id);
 
-    setItems([...current]);
+    setFavoriteAuthor([...current]);
   }
 
   return (
     <>
-      {items.length ? (
-        <ListItemComponent authors={items} removeFavorite={removeFavorite} />
+      {favoriteAuthor.length ? (
+        <ListItemComponent
+          authors={favoriteAuthor}
+          removeFavorite={removeFavorite}
+        />
       ) : (
-        <Card style={{ width: 400,margin:'auto' }}>
+        <Card style={{ width: 400, margin: "auto" }}>
           <Typography.Title level={5}>
             You have not selected any authors as favorite yet.
           </Typography.Title>
