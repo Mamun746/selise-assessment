@@ -20,7 +20,7 @@ export default function SideBar() {
           <Link to="/authors"> Author</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<HeartOutlined />}>
-          <Link to="/favorite-authors"> Favorite Author</Link>
+          <Link to="/favorite-author"> Favorite Author</Link>
         </Menu.Item>
       </Menu>
     </Layout.Sider>

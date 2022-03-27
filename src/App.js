@@ -24,7 +24,7 @@ function App() {
               <Route exact path="/authors">
                 <AuthorsPage />
               </Route>
-              <Route exact path="/favorite-authors">
+              <Route exact path="/favorite-author">
                 <FavoriteAuthorsPage />
               </Route>
             </React.Suspense>
