@@ -95,6 +95,7 @@ export default function Authors() {
           showSizeChanger={false}
           showQuickJumper={false}
           onChange={onPaginationChange}
+          responsive
         />
       ) : null}
     </>
